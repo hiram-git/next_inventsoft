@@ -1363,6 +1363,28 @@ export const store = {
       .where(eq(schema.componentesProducto.productoId, Number(productoId)));
   },
 
+  async addComponenteProducto(
+    productoId: string,
+    data: { componenteId: string; cantidad: number; unidad?: string }
+  ) {
+    const componente = await db.select().from(schema.productos)
+      .where(eq(schema.productos.id, Number(data.componenteId))).limit(1);
+    if (!componente[0]) throw new Error('Componente no encontrado');
+    const [row] = await db.insert(schema.componentesProducto).values({
+      productoId: Number(productoId),
+      componenteId: Number(data.componenteId),
+      componenteNombre: componente[0].nombre,
+      cantidad: String(data.cantidad),
+      unidad: data.unidad ?? '',
+    }).returning();
+    return normalizeComponente(row);
+  },
+
+  async removeComponenteProducto(componenteRelId: string) {
+    await db.delete(schema.componentesProducto)
+      .where(eq(schema.componentesProducto.id, Number(componenteRelId)));
+  },
+
   // ── Comandas (órdenes de cocina) ──────────────────────────────────────────
   async getComandasActivas() {
     const rows = await db.select().from(schema.comandas)
