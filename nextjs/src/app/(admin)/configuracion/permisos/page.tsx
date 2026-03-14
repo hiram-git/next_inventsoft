@@ -1,5 +1,6 @@
 import { store } from '@/lib/store';
 import { revalidatePath } from 'next/cache';
+import DeleteButton from '@/components/DeleteButton';
 
 async function handlePermiso(formData: FormData) {
   'use server';
@@ -41,14 +42,7 @@ export default async function PermisosPage() {
                   <td><code style={{ background: 'var(--bg)', padding: '2px 6px', borderRadius: 4, fontSize: '0.8rem' }}>{p.clave}</code></td>
                   <td>{p.nombre}</td>
                   <td>
-                    <form action={handlePermiso} style={{ display: 'inline' }}>
-                      <input type="hidden" name="_action" value="delete" />
-                      <input type="hidden" name="id" value={p.id} />
-                      <button type="submit" className="btn btn-danger btn-sm"
-                        onClick={(e) => { if (!confirm('¿Eliminar?')) e.preventDefault(); }}>
-                        <span className="material-icons-round" style={{ fontSize: 16 }}>delete</span>
-                      </button>
-                    </form>
+                    <DeleteButton action={handlePermiso} id={p.id} />
                   </td>
                 </tr>
               ))}

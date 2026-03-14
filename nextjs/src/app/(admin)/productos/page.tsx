@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { store } from '@/lib/store';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
+import DeleteButton from '@/components/DeleteButton';
 
 async function deleteProducto(formData: FormData) {
   'use server';
@@ -75,13 +76,7 @@ export default async function ProductosPage() {
                     <Link href={`/productos/${p.id}/editar`} className="btn btn-primary btn-sm">
                       <span className="material-icons-round" style={{ fontSize: 16 }}>edit</span>
                     </Link>
-                    <form action={deleteProducto}>
-                      <input type="hidden" name="id" value={p.id} />
-                      <button type="submit" className="btn btn-danger btn-sm"
-                        onClick={(e) => { if (!confirm('¿Eliminar?')) e.preventDefault(); }}>
-                        <span className="material-icons-round" style={{ fontSize: 16 }}>delete</span>
-                      </button>
-                    </form>
+                    <DeleteButton action={deleteProducto} id={p.id} />
                   </div>
                 </td>
               </tr>

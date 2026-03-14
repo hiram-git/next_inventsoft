@@ -2,6 +2,7 @@ import { store } from '@/lib/store';
 import { revalidatePath } from 'next/cache';
 import bcrypt from 'bcryptjs';
 import { redirect } from 'next/navigation';
+import DeleteButton from '@/components/DeleteButton';
 
 async function handleUsuario(formData: FormData) {
   'use server';
@@ -58,14 +59,7 @@ export default async function UsuariosPage() {
                         {u.activo ? 'Desactivar' : 'Activar'}
                       </button>
                     </form>
-                    <form action={handleUsuario} style={{ display: 'inline' }}>
-                      <input type="hidden" name="_action" value="delete" />
-                      <input type="hidden" name="id" value={u.id} />
-                      <button type="submit" className="btn btn-danger btn-sm"
-                        onClick={(e) => { if (!confirm('¿Eliminar usuario?')) e.preventDefault(); }}>
-                        <span className="material-icons-round" style={{ fontSize: 16 }}>delete</span>
-                      </button>
-                    </form>
+                    <DeleteButton action={handleUsuario} id={u.id} />
                   </div>
                 </td>
               </tr>

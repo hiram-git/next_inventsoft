@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { store } from '@/lib/store';
 import { revalidatePath } from 'next/cache';
+import ConfirmButton from '@/components/ConfirmButton';
 
 async function handleCompra(formData: FormData) {
   'use server';
@@ -60,18 +61,16 @@ export default async function ComprasPage() {
                         <form action={handleCompra} style={{ display: 'inline' }}>
                           <input type="hidden" name="_action" value="recibir" />
                           <input type="hidden" name="id" value={c.id} />
-                          <button type="submit" className="btn btn-success btn-sm" title="Recibir"
-                            onClick={(e) => { if (!confirm('¿Recibir compra? Se actualizará inventario.')) e.preventDefault(); }}>
+                          <ConfirmButton mensaje="¿Recibir compra? Se actualizará inventario." className="btn btn-success btn-sm" title="Recibir">
                             <span className="material-icons-round" style={{ fontSize: 16 }}>check_circle</span>
-                          </button>
+                          </ConfirmButton>
                         </form>
                         <form action={handleCompra} style={{ display: 'inline' }}>
                           <input type="hidden" name="_action" value="cancelar" />
                           <input type="hidden" name="id" value={c.id} />
-                          <button type="submit" className="btn btn-danger btn-sm" title="Cancelar"
-                            onClick={(e) => { if (!confirm('¿Cancelar?')) e.preventDefault(); }}>
+                          <ConfirmButton mensaje="¿Cancelar?" className="btn btn-danger btn-sm" title="Cancelar">
                             <span className="material-icons-round" style={{ fontSize: 16 }}>cancel</span>
-                          </button>
+                          </ConfirmButton>
                         </form>
                       </>
                     )}

@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { store } from '@/lib/store';
 import { revalidatePath } from 'next/cache';
+import DeleteButton from '@/components/DeleteButton';
 
 async function deleteServicio(formData: FormData) {
   'use server';
@@ -45,13 +46,7 @@ export default async function ServiciosPage() {
                     <Link href={`/servicios/${s.id}/editar`} className="btn btn-primary btn-sm">
                       <span className="material-icons-round" style={{ fontSize: 16 }}>edit</span>
                     </Link>
-                    <form action={deleteServicio}>
-                      <input type="hidden" name="id" value={s.id} />
-                      <button type="submit" className="btn btn-danger btn-sm"
-                        onClick={(e) => { if (!confirm('¿Eliminar?')) e.preventDefault(); }}>
-                        <span className="material-icons-round" style={{ fontSize: 16 }}>delete</span>
-                      </button>
-                    </form>
+                    <DeleteButton action={deleteServicio} id={s.id} />
                   </div>
                 </td>
               </tr>

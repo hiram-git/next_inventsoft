@@ -3,6 +3,7 @@ import { store } from '@/lib/store';
 import { notFound } from 'next/navigation';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
+import ConfirmButton from '@/components/ConfirmButton';
 
 async function convertirAFactura(formData: FormData) {
   'use server';
@@ -33,10 +34,9 @@ export default async function CotizacionDetailPage({ params }: { params: Promise
           {cotizacion.estado !== 'convertida' && cotizacion.estado !== 'cancelada' && cotizacion.estado !== 'rechazada' && (
             <form action={convertirAFactura} style={{ display: 'inline' }}>
               <input type="hidden" name="cotId" value={id} />
-              <button type="submit" className="btn btn-success"
-                onClick={(e) => { if (!confirm('¿Convertir a factura?')) e.preventDefault(); }}>
+              <ConfirmButton mensaje="¿Convertir a factura?" className="btn btn-success">
                 <span className="material-icons-round">receipt</span> Convertir a Factura
-              </button>
+              </ConfirmButton>
             </form>
           )}
           <Link href="/cotizaciones" className="btn btn-secondary">

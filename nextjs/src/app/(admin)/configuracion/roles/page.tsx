@@ -1,5 +1,6 @@
 import { store } from '@/lib/store';
 import { revalidatePath } from 'next/cache';
+import DeleteButton from '@/components/DeleteButton';
 
 async function handleRol(formData: FormData) {
   'use server';
@@ -35,14 +36,7 @@ export default async function RolesPage() {
                 <td>{r.descripcion || '—'}</td>
                 <td>{(r.permisos ?? []).length} permisos</td>
                 <td>
-                  <form action={handleRol} style={{ display: 'inline' }}>
-                    <input type="hidden" name="_action" value="delete" />
-                    <input type="hidden" name="id" value={r.id} />
-                    <button type="submit" className="btn btn-danger btn-sm"
-                      onClick={(e) => { if (!confirm('¿Eliminar rol?')) e.preventDefault(); }}>
-                      <span className="material-icons-round" style={{ fontSize: 16 }}>delete</span>
-                    </button>
-                  </form>
+                  <DeleteButton action={handleRol} id={r.id} />
                 </td>
               </tr>
             ))}

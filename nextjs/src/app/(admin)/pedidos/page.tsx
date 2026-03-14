@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { store } from '@/lib/store';
 import { revalidatePath } from 'next/cache';
+import ConfirmButton from '@/components/ConfirmButton';
 
 async function handlePedido(formData: FormData) {
   'use server';
@@ -62,30 +63,27 @@ export default async function PedidosPage() {
                       <form action={handlePedido} style={{ display: 'inline' }}>
                         <input type="hidden" name="_action" value="confirmar" />
                         <input type="hidden" name="id" value={p.id} />
-                        <button type="submit" className="btn btn-success btn-sm" title="Confirmar"
-                          onClick={(e) => { if (!confirm('¿Confirmar pedido? Se reservará stock.')) e.preventDefault(); }}>
+                        <ConfirmButton mensaje="¿Confirmar pedido? Se reservará stock." className="btn btn-success btn-sm" title="Confirmar">
                           <span className="material-icons-round" style={{ fontSize: 16 }}>check</span>
-                        </button>
+                        </ConfirmButton>
                       </form>
                     )}
                     {p.estado === 'confirmado' && (
                       <form action={handlePedido} style={{ display: 'inline' }}>
                         <input type="hidden" name="_action" value="despachar" />
                         <input type="hidden" name="id" value={p.id} />
-                        <button type="submit" className="btn btn-primary btn-sm" title="Despachar"
-                          onClick={(e) => { if (!confirm('¿Despachar pedido?')) e.preventDefault(); }}>
+                        <ConfirmButton mensaje="¿Despachar pedido?" className="btn btn-primary btn-sm" title="Despachar">
                           <span className="material-icons-round" style={{ fontSize: 16 }}>local_shipping</span>
-                        </button>
+                        </ConfirmButton>
                       </form>
                     )}
                     {(p.estado === 'borrador' || p.estado === 'confirmado') && (
                       <form action={handlePedido} style={{ display: 'inline' }}>
                         <input type="hidden" name="_action" value="cancelar" />
                         <input type="hidden" name="id" value={p.id} />
-                        <button type="submit" className="btn btn-danger btn-sm" title="Cancelar"
-                          onClick={(e) => { if (!confirm('¿Cancelar?')) e.preventDefault(); }}>
+                        <ConfirmButton mensaje="¿Cancelar?" className="btn btn-danger btn-sm" title="Cancelar">
                           <span className="material-icons-round" style={{ fontSize: 16 }}>cancel</span>
-                        </button>
+                        </ConfirmButton>
                       </form>
                     )}
                   </div>
