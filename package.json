@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
+    "postinstall": "npm install --prefix nextjs",
     "dev":         "npm run dev --prefix nextjs",
     "build":       "npm run build --prefix nextjs",
     "start":       "npm run start --prefix nextjs",
