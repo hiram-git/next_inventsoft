@@ -1,6 +1,7 @@
 import { store } from '@/lib/store';
 import { notFound } from 'next/navigation';
 import { revalidatePath } from 'next/cache';
+import DeleteButton from '@/components/DeleteButton';
 
 async function handleComponente(formData: FormData) {
   'use server';
@@ -123,15 +124,7 @@ export default async function ComponentesProductoPage({ params }: { params: Prom
                     {esKit && <td>${precioUnit.toFixed(2)}</td>}
                     {esKit && <td style={{ fontWeight: 600 }}>${subtotal.toFixed(2)}</td>}
                     <td>
-                      <form action={handleComponente} style={{ display: 'inline' }}>
-                        <input type="hidden" name="_action" value="remove" />
-                        <input type="hidden" name="productoId" value={id} />
-                        <input type="hidden" name="componenteRelId" value={c.id} />
-                        <button type="submit" className="btn btn-danger btn-sm"
-                          onClick={(e) => { if (!confirm('¿Eliminar?')) e.preventDefault(); }}>
-                          <span className="material-icons-round" style={{ fontSize: 16 }}>delete</span>
-                        </button>
-                      </form>
+                      <DeleteButton action={handleComponente} id={c.id} />
                     </td>
                   </tr>
                 );

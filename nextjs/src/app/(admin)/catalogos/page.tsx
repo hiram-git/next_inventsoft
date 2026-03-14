@@ -1,5 +1,6 @@
 import { store } from '@/lib/store';
 import { revalidatePath } from 'next/cache';
+import ConfirmButton from '@/components/ConfirmButton';
 
 async function handleCatalog(formData: FormData) {
   'use server';
@@ -40,10 +41,9 @@ function CatalogSection({
               <input type="hidden" name="_action" value="delete" />
               <input type="hidden" name="tabla" value={tabla} />
               <input type="hidden" name="id" value={item.id} />
-              <button type="submit" style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--danger)', padding: '0 2px', fontSize: '1rem', lineHeight: 1 }}
-                onClick={(e) => { if (!confirm(`¿Eliminar "${item.nombre}"?`)) e.preventDefault(); }}>
+              <ConfirmButton mensaje={`¿Eliminar "${item.nombre}"?`} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--danger)', padding: '0 2px', fontSize: '1rem', lineHeight: 1 }}>
                 ×
-              </button>
+              </ConfirmButton>
             </form>
           </div>
         ))}

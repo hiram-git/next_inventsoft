@@ -1,5 +1,6 @@
 import { store } from '@/lib/store';
 import { revalidatePath } from 'next/cache';
+import DeleteButton from '@/components/DeleteButton';
 
 async function handleVendedor(formData: FormData) {
   'use server';
@@ -49,14 +50,7 @@ export default async function VendedoresPage() {
                   </span>
                 </td>
                 <td>
-                  <form action={handleVendedor} style={{ display: 'inline' }}>
-                    <input type="hidden" name="_action" value="delete" />
-                    <input type="hidden" name="id" value={v.id} />
-                    <button type="submit" className="btn btn-danger btn-sm"
-                      onClick={(e) => { if (!confirm('¿Eliminar?')) e.preventDefault(); }}>
-                      <span className="material-icons-round" style={{ fontSize: 16 }}>delete</span>
-                    </button>
-                  </form>
+                  <DeleteButton action={handleVendedor} id={v.id} />
                 </td>
               </tr>
             ))}

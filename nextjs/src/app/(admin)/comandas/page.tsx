@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { store } from '@/lib/store';
 import { revalidatePath } from 'next/cache';
+import ConfirmButton from '@/components/ConfirmButton';
 
 async function handleComanda(formData: FormData) {
   'use server';
@@ -85,10 +86,9 @@ export default async function ComandasPage() {
                       <form action={handleComanda} style={{ display: 'inline' }}>
                         <input type="hidden" name="id" value={c.id} />
                         <input type="hidden" name="estado" value="cancelada" />
-                        <button type="submit" className="btn btn-danger btn-sm" title="Cancelar"
-                          onClick={(e) => { if (!confirm('¿Cancelar?')) e.preventDefault(); }}>
+                        <ConfirmButton mensaje="¿Cancelar?" className="btn btn-danger btn-sm" title="Cancelar">
                           <span className="material-icons-round" style={{ fontSize: 16 }}>cancel</span>
-                        </button>
+                        </ConfirmButton>
                       </form>
                     )}
                   </div>

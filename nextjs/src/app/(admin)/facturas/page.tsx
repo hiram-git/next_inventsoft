@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { store } from '@/lib/store';
 import { revalidatePath } from 'next/cache';
+import ConfirmButton from '@/components/ConfirmButton';
 
 async function handleFactura(formData: FormData) {
   'use server';
@@ -68,10 +69,9 @@ export default async function FacturasPage() {
                         <input type="hidden" name="_action" value="update_estado" />
                         <input type="hidden" name="id" value={f.id} />
                         <input type="hidden" name="estado" value="cancelada" />
-                        <button type="submit" className="btn btn-danger btn-sm" title="Cancelar"
-                          onClick={(e) => { if (!confirm('¿Cancelar esta factura?')) e.preventDefault(); }}>
+                        <ConfirmButton mensaje="¿Cancelar esta factura?" className="btn btn-danger btn-sm" title="Cancelar">
                           <span className="material-icons-round" style={{ fontSize: 16 }}>cancel</span>
-                        </button>
+                        </ConfirmButton>
                       </form>
                     )}
                   </div>
