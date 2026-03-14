@@ -96,7 +96,7 @@ export default function DocumentForm({
   }
 
   return (
-    <form method="POST" action={action}>
+    <form action={action}>
       <input type="hidden" name="items_json" value={JSON.stringify(items)} />
 
       {/* Campos personalizados (cliente, almacén, fecha, etc.) */}
