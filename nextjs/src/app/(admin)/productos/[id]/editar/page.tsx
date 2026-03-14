@@ -5,17 +5,18 @@ async function updateProducto(formData: FormData) {
   'use server';
   const id = formData.get('id')?.toString() ?? '';
   await store.updateProducto(id, {
-    codigo:      formData.get('codigo')?.toString() ?? '',
-    nombre:      formData.get('nombre')?.toString() ?? '',
-    descripcion: formData.get('descripcion')?.toString() ?? '',
-    marca:       formData.get('marca')?.toString() ?? '',
-    grupo:       formData.get('grupo')?.toString() ?? '',
-    departamento:formData.get('departamento')?.toString() ?? '',
-    linea:       formData.get('linea')?.toString() ?? '',
-    precio:      parseFloat(formData.get('precio')?.toString() ?? '0'),
-    costo:       parseFloat(formData.get('costo')?.toString() ?? '0'),
-    stock:       parseInt(formData.get('stock')?.toString() ?? '0'),
-    activo:      formData.get('activo') !== 'false',
+    codigo:       formData.get('codigo')?.toString() ?? '',
+    nombre:       formData.get('nombre')?.toString() ?? '',
+    descripcion:  formData.get('descripcion')?.toString() ?? '',
+    marca:        formData.get('marca')?.toString() ?? '',
+    grupo:        formData.get('grupo')?.toString() ?? '',
+    departamento: formData.get('departamento')?.toString() ?? '',
+    linea:        formData.get('linea')?.toString() ?? '',
+    precio:       parseFloat(formData.get('precio')?.toString() ?? '0'),
+    costo:        parseFloat(formData.get('costo')?.toString() ?? '0'),
+    stock:        parseInt(formData.get('stock')?.toString() ?? '0'),
+    tipoProducto: (formData.get('tipoProducto')?.toString() ?? 'simple') as 'simple' | 'compuesto' | 'kit',
+    activo:       formData.get('activo') !== 'false',
   });
   redirect('/productos');
 }
@@ -32,9 +33,14 @@ export default async function EditarProductoPage({ params }: { params: Promise<{
       <div className="page-header">
         <h1>Editar Producto</h1>
         <div style={{ display: 'flex', gap: 8 }}>
-          <a href={`/productos/${id}/componentes`} className="btn btn-secondary">
-            <span className="material-icons-round">account_tree</span> Componentes
-          </a>
+          {(producto.tipoProducto === 'kit' || producto.tipoProducto === 'compuesto') && (
+            <a href={`/productos/${id}/componentes`} className="btn btn-primary">
+              <span className="material-icons-round">
+                {producto.tipoProducto === 'kit' ? 'inventory_2' : 'blender'}
+              </span>
+              {producto.tipoProducto === 'kit' ? 'Productos del kit' : 'Ingredientes'}
+            </a>
+          )}
           <a href="/productos" className="btn btn-secondary">
             <span className="material-icons-round">arrow_back</span> Volver
           </a>
@@ -98,6 +104,14 @@ export default async function EditarProductoPage({ params }: { params: Promise<{
             <div className="form-group">
               <label>Stock Actual</label>
               <input type="number" name="stock" className="form-control" min="0" defaultValue={producto.stock ?? 0} />
+            </div>
+            <div className="form-group">
+              <label>Tipo de Producto</label>
+              <select name="tipoProducto" className="form-control" defaultValue={producto.tipoProducto ?? 'simple'}>
+                <option value="simple">Simple</option>
+                <option value="kit">Kit / Bundle</option>
+                <option value="compuesto">Compuesto / Receta</option>
+              </select>
             </div>
             <div className="form-group">
               <label>Estado</label>
