@@ -67,10 +67,15 @@ const sections = [
   { id: 'configuracion', label: 'Configuración',         items: configItems },
 ];
 
+const allNavHrefs = sections.flatMap(s => s.items.map(i => i.href));
+
 function NavItem({ href, icon, label, currentPath }: {
   href: string; icon: string; label: string; currentPath: string;
 }) {
-  const isActive = currentPath.startsWith(href) && (href !== '/comandas/nueva' || currentPath === href);
+  // Active if exact match, OR path starts with href+'/' but no more-specific nav item also matches
+  const isActive = currentPath === href ||
+    (currentPath.startsWith(href + '/') &&
+      !allNavHrefs.some(h => h !== href && h.startsWith(href + '/') && currentPath.startsWith(h)));
   return (
     <Link href={href} className={`nav-link${isActive ? ' active' : ''}`} title={label}>
       <span className="material-icons-round">{icon}</span>
