@@ -30,7 +30,7 @@ export default async function ClientesPage() {
           </thead>
           <tbody>
             {clientes.map(c => (
-              <tr key={c.id} style={{ cursor: 'pointer' }} onClick={() => {}}>
+              <tr key={c.id}>
                 <td>
                   <a href={`/clientes/${c.id}/editar`} style={{ color: 'inherit', textDecoration: 'none' }}>
                     <div>{c.nombre}</div>
